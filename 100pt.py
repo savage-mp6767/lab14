@@ -58,25 +58,29 @@ class MyApp:
         def regObj(self,obj):
                 self.objects.append(obj)
 		
-        def upClicked(self, event):   
-                global oval
-                global player
-                drawpad.move(player,0,-20)
+        def upClicked(self, event): 
+                if self.edgeDetect():
+                    global oval
+                    global player
+                    drawpad.move(player,0,-20)
 	  
         def downClicked(self, event):   
-                global oval
-                global player
-                drawpad.move(player,0,20)
+                if self.edgeDetect():
+                    global oval
+                    global player
+                    drawpad.move(player,0,20)
 	   
         def leftClicked(self, event):
-                global oval
-                global player
-                drawpad.move(player,-20,0)
+                if self.edgeDetect():  
+                    global oval
+                    global player
+                    drawpad.move(player,-20,0)
 	   
         def rightClicked(self, event):
-                global oval
-                global player
-                drawpad.move(player,20,0)
+                if self.edgeDetect():  
+                    global oval
+                    global player
+                    drawpad.move(player,20,0)
         
 	def collisionDetect(self):
                 global oval
@@ -101,7 +105,20 @@ class MyApp:
                             if y2 < ty2 + tarH or y2 == ty2:
                                 return True
                 return False
-
+                #fix this gay edge detection shit
+        def edgeDetect(self):
+            global drawpad
+            x1,y1,x2,y2 = drawpad.coords(player)
+            if x2 > drawpad.winfo_width(): 
+                return False
+            elif x1 > 0:
+                return False
+            elif y1 > drawpad.winfo_height():
+                return False
+            elif y2 < 0:
+                return False
+            return True
+                
         # Ensure that we are doing our collision detection
 	# After we move our object!
 	def Update(self):
@@ -109,6 +126,7 @@ class MyApp:
 	    global target
 	    global direction
             col = self.collisionDetect()
+            self.edgeDetect()
             if col:
                 drawpad.itemconfig(target,fill='red')
             else:
