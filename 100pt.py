@@ -101,7 +101,7 @@ class MyApp:
                 #        return True
                 if x1 > tx1 or x1 == tx1:
                     if y1 > ty1 or y1 == ty1:
-                        if x2 < tx2 + tarW or x2 == tx2:
+                        if x2 < tx2 or x2 == tx2:
                             if y2 < ty2 + tarH or y2 == ty2:
                                 return True
                 return False
